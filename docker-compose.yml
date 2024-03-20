@@ -1,0 +1,27 @@
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: mypass1
+      POSTGRES_USER: psuser
+      POSTGRES_DB: task
+
+  task_app:
+    build: .
+    image: test_task_vk:latest
+    restart: always
+    environment:
+      HOST_DB: 192.168.211.3
+      PORT_DB: 5432
+      TYPE_DB: postgres
+      LOGIN_DB: psuser
+      PASSWD_DB: mypass1
+      NAME_DB: task
+      TIMEOUT_CHECK: 60
+      COUNT_CHECK: 10
+    ports:
+      - "8080:8080"
